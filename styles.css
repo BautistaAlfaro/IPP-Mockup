@@ -1,0 +1,1081 @@
+/* ==========================================================================
+   MI AGENDA - MOCKUP UX/UI INTERACTIVO
+   Estilos CSS optimizados para dispositivos móviles y proyección en clase
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES Y TOKENS DE DISEÑO
+   -------------------------------------------------------------------------- */
+:root {
+  /* Fuentes */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: 'Outfit', var(--font-primary);
+
+  /* Paleta Modo Oscuro (Predeterminada para proyección de alto contraste) */
+  --bg-page: #0f172a;
+  --bg-toolbar: #1e293b;
+  --bg-device: #090d16;
+  --bg-app: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-input: #1e293b;
+  --bg-sheet: #1e293b;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  --border-color: #334155;
+  --border-focus: #6366f1;
+
+  /* Colores de Marca y Acciones */
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-light: rgba(99, 102, 241, 0.15);
+  
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.15);
+  --warning: #f59e0b;
+  --warning-light: rgba(245, 158, 11, 0.15);
+  --danger: #ef4444;
+  --danger-light: rgba(239, 68, 68, 0.15);
+
+  /* Prioridades */
+  --priority-high: #f43f5e;
+  --priority-high-bg: rgba(244, 63, 94, 0.15);
+  --priority-medium: #fbbf24;
+  --priority-medium-bg: rgba(251, 191, 36, 0.15);
+  --priority-low: #10b981;
+  --priority-low-bg: rgba(16, 185, 129, 0.15);
+
+  /* Sombras y Elevaciones */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-fab: 0 8px 24px rgba(99, 102, 241, 0.5);
+
+  /* Radio de Bordes */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+
+  /* Transiciones */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Modo Claro (Light Theme) */
+body.light-theme {
+  --bg-page: #f1f5f9;
+  --bg-toolbar: #ffffff;
+  --bg-device: #e2e8f0;
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-input: #f1f5f9;
+  --bg-sheet: #ffffff;
+  
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Modo Alto Contraste (Accesibilidad) */
+body.high-contrast {
+  --bg-app: #000000;
+  --bg-card: #111111;
+  --border-color: #ffffff;
+  --text-main: #ffffff;
+  --text-muted: #ffff00;
+  --primary: #ffff00;
+  --text-dim: #e2e8f0;
+}
+
+/* Modo Fuente Ampliada */
+body.large-font {
+  font-size: 115%;
+}
+
+/* --------------------------------------------------------------------------
+   2. REINICIO Y ESTILOS BASE
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  transition: background-color var(--transition-fast);
+}
+
+/* Ocultar elementos visualmente manteniendo accesibilidad para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. CONTENEDOR DE PRESENTACIÓN DEL CELULAR
+   -------------------------------------------------------------------------- */
+.presentation-viewport {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  position: relative;
+  min-height: 100vh;
+}
+
+.device-frame {
+  width: 390px;
+  height: 800px;
+  background-color: var(--bg-device);
+  border-radius: 48px;
+  padding: 12px;
+  box-shadow: var(--shadow-lg), 0 0 0 12px #1e293b, 0 0 0 13px #020617;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* MODO PANTALLA COMPLETA (SIN MARCO MÓVIL) */
+body.fullscreen-mode .device-frame {
+  width: 100% !important;
+  max-width: 480px;
+  height: 92vh !important;
+  border-radius: 20px;
+  padding: 0;
+  box-shadow: var(--shadow-lg);
+}
+
+body.fullscreen-mode .device-notch-area,
+body.fullscreen-mode .device-side-button {
+  display: none;
+}
+
+/* Notch & Botones Físicos */
+.device-notch-area {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130px;
+  height: 28px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.device-notch-area .speaker {
+  width: 45px;
+  height: 4px;
+  background: #262626;
+  border-radius: 2px;
+}
+
+.device-notch-area .camera {
+  width: 11px;
+  height: 11px;
+  background: #171717;
+  border-radius: 50%;
+  border: 1px solid #262626;
+}
+
+/* Botones laterales del hardware */
+.device-side-button {
+  position: absolute;
+  background: #334155;
+  border-radius: 3px;
+}
+.device-side-button.power { right: -15px; top: 180px; width: 4px; height: 60px; }
+.device-side-button.volume-up { left: -15px; top: 160px; width: 4px; height: 45px; }
+.device-side-button.volume-down { left: -15px; top: 215px; width: 4px; height: 45px; }
+
+/* --------------------------------------------------------------------------
+   5. PANTALLA DE LA APP (DENTRO DEL DISPOSITIVO)
+   -------------------------------------------------------------------------- */
+.app-screen {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  border-radius: 36px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+body.fullscreen-mode .app-screen {
+  border-radius: 20px;
+}
+
+/* Barra de Estado (Status Bar) */
+.status-bar {
+  height: 40px;
+  padding: 10px 24px 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-main);
+  z-index: 10;
+}
+
+.status-icons {
+  display: flex;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+
+/* Cabecera de la App */
+.app-header {
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-greeting {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.greeting-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.greeting-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header-quick-stats {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.stat-badge {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 52px;
+}
+
+.stat-badge.pending { background: var(--primary-light); color: var(--primary); }
+.stat-badge.completed { background: var(--success-light); color: var(--success); }
+
+.stat-num { font-family: var(--font-heading); font-weight: 800; font-size: 0.95rem; }
+.stat-text { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; }
+
+/* --------------------------------------------------------------------------
+   7. CONTROLES Y FILTROS
+   -------------------------------------------------------------------------- */
+.controls-section {
+  padding: 0 1.25rem 0.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+}
+
+.search-box input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 2.2rem 0.65rem 2.5rem;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.search-box input:focus {
+  border-color: var(--border-focus);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.clear-btn.hidden { display: none; }
+
+/* Segmented Control (Tabs) */
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.segmented-control {
+  flex: 1;
+  background: var(--bg-input);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  display: flex;
+  border: 1px solid var(--border-color);
+}
+
+.segment-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.4rem 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.segment-btn.active {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Secondary Controls (Prioridades ocupando toda la fila) */
+.secondary-controls {
+  width: 100%;
+}
+
+.priority-chips {
+  display: flex;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.chip-btn {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 0.45rem 0.3rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  transition: all var(--transition-fast);
+}
+
+.chip-btn.active {
+  border-color: var(--text-main);
+  color: var(--text-main);
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.chip-btn.high.active { background: var(--priority-high-bg); border-color: var(--priority-high); color: var(--priority-high); }
+.chip-btn.medium.active { background: var(--priority-medium-bg); border-color: var(--priority-medium); color: var(--priority-medium); }
+.chip-btn.low.active { background: var(--priority-low-bg); border-color: var(--priority-low); color: var(--priority-low); }
+
+/* --------------------------------------------------------------------------
+   8. LISTA DE TAREAS (MAIN CONTAINER)
+   -------------------------------------------------------------------------- */
+.tasks-container {
+  flex: 1;
+  padding: 0 1.25rem;
+  overflow-y: auto;
+  padding-bottom: 90px; /* Espacio para el Bottom Nav y FAB */
+}
+
+.tasks-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.tasks-count-tag {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Tarjeta de Tarea (Task Card) */
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  position: relative;
+  transition: all var(--transition-bounce);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.task-card.completed-card {
+  opacity: 0.65;
+  background: rgba(30, 41, 59, 0.4);
+}
+
+/* Checkbox circular interactivo */
+.task-checkbox-wrapper {
+  padding-top: 2px;
+}
+
+.custom-checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--text-dim);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-bounce);
+  color: transparent;
+}
+
+.task-card.completed-card .custom-checkbox {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.task-title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.task-card.completed-card .task-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.task-description {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.task-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Badges de Prioridad y Fecha */
+.badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge-priority.alta { background: var(--priority-high-bg); color: var(--priority-high); }
+.badge-priority.media { background: var(--priority-medium-bg); color: var(--priority-medium); }
+.badge-priority.baja { background: var(--priority-low-bg); color: var(--priority-low); }
+
+.badge-date {
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.badge-date.overdue {
+  background: var(--danger-light);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.badge-date.today {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+/* Acciones rápidas de la tarjeta */
+.task-actions {
+  display: flex;
+  gap: 0.2rem;
+  opacity: 0.8;
+}
+
+.btn-card-action {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color var(--transition-fast);
+}
+
+.btn-card-action:hover {
+  color: var(--text-main);
+}
+.btn-card-action.delete:hover {
+  color: var(--danger);
+}
+
+/* Estado Vacío */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-state.hidden { display: none; }
+
+.empty-icon {
+  font-size: 3.5rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+.empty-state h3 { font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 0.25rem; }
+.empty-state p { font-size: 0.8rem; color: var(--text-muted); max-width: 240px; margin-bottom: 1.25rem; }
+
+/* --------------------------------------------------------------------------
+   9. NAVEGACIÓN INFERIOR & BOTÓN FAB (THUMB ZONE)
+   -------------------------------------------------------------------------- */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.5rem;
+  z-index: 40;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  padding: 6px 0;
+  transition: color var(--transition-fast);
+}
+
+.nav-item i {
+  font-size: 1.25rem;
+}
+
+.nav-item.active {
+  color: var(--primary);
+}
+
+.nav-fab-space {
+  width: 20px;
+}
+
+/* Floating Action Button (FAB - Renderizado dentro de la pantalla sobre la barra de navegación) */
+.fab-create {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  box-shadow: var(--shadow-fab);
+  cursor: pointer;
+  z-index: 50;
+  transition: all var(--transition-bounce);
+}
+
+.fab-create:hover {
+  transform: scale(1.1) rotate(90deg);
+}
+
+/* Modo Zurdo */
+body.lefty-mode .fab-create {
+  right: auto;
+  left: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   10. MODALES & BOTTOM SHEETS (DELIMITADOS DENTRO DE APP-SCREEN)
+   -------------------------------------------------------------------------- */
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 1;
+  transition: opacity var(--transition-fast);
+}
+
+.modal-backdrop.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Bottom Sheet Animado */
+.bottom-sheet {
+  background: var(--bg-sheet);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border-top: 1px solid var(--border-color);
+  padding: 1.25rem;
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-backdrop.hidden .bottom-sheet {
+  transform: translateY(100%);
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  margin: 0 auto 1rem auto;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.sheet-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.icon-btn-close {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+/* Formularios */
+.sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.required { color: var(--danger); }
+.optional { font-weight: 400; color: var(--text-dim); }
+
+.form-input, .form-textarea {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.9rem;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-family: var(--font-primary);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--primary);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-dim);
+}
+
+.input-with-icon input {
+  padding-left: 2.4rem;
+  width: 100%;
+}
+
+/* Selector de Prioridades (Radio Cards) */
+.priority-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.priority-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.priority-option input { display: none; }
+
+.priority-card {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.priority-card .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.priority-option.high .dot { background: var(--priority-high); }
+.priority-option.medium .dot { background: var(--priority-medium); }
+.priority-option.low .dot { background: var(--priority-low); }
+
+.priority-option input:checked + .priority-card {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.priority-option.high input:checked + .priority-card { border-color: var(--priority-high); background: var(--priority-high-bg); color: var(--priority-high); }
+.priority-option.medium input:checked + .priority-card { border-color: var(--priority-medium); background: var(--priority-medium-bg); color: var(--priority-medium); }
+.priority-option.low input:checked + .priority-card { border-color: var(--priority-low); background: var(--priority-low-bg); color: var(--priority-low); }
+
+/* Switch Toggle */
+.toggle-field {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch-toggle input { display: none; }
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  transition: .3s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--text-dim);
+  border-radius: 50%;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+  background-color: #fff;
+}
+
+/* Acciones del Sheet */
+.sheet-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.btn-primary, .btn-secondary, .btn-cancel, .btn-danger {
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-primary {
+  flex: 2;
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-secondary {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.btn-cancel {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.btn-danger {
+  flex: 1;
+  background: var(--danger);
+  color: #fff;
+}
+
+.full-width { width: 100%; }
+
+/* Modal de Confirmación Diálogo */
+.dialog-box {
+  background: var(--bg-sheet);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 1.5rem;
+  width: 85%;
+  max-width: 320px;
+  margin: auto;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.dialog-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin: 0 auto 0.75rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.dialog-icon.warning { background: var(--danger-light); color: var(--danger); }
+
+.dialog-box h3 { font-family: var(--font-heading); margin-bottom: 0.4rem; }
+.dialog-box p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+
+.dialog-actions { display: flex; gap: 0.5rem; }
+
+/* Opciones de Accesibilidad */
+.acc-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.acc-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   11. TOAST NOTIFICATION (DELIMITADO DENTRO DE APP-SCREEN)
+   -------------------------------------------------------------------------- */
+.toast {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: #1e293b;
+  border: 1px solid var(--primary);
+  color: #fff;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  transition: all var(--transition-bounce);
+  white-space: nowrap;
+}
+
+.toast.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px);
+  pointer-events: none;
+}
+
+.toast-icon { color: var(--success); font-size: 1.1rem; }

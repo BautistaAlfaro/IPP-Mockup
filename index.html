@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Agenda - Mockup Interactivo UX/UI</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="presentation-mode">
+
+  <!-- CONTENEDOR PRINCIPAL: EXCLUSIVAMENTE EL CELULAR -->
+  <main class="presentation-viewport">
+    <div class="device-frame" id="device-frame">
+      
+      <!-- Borde y Botones Físicos del Móvil -->
+      <div class="device-notch-area">
+        <div class="speaker"></div>
+        <div class="camera"></div>
+      </div>
+      <div class="device-side-button power"></div>
+      <div class="device-side-button volume-up"></div>
+      <div class="device-side-button volume-down"></div>
+
+      <!-- PANTALLA DE LA APP -->
+      <div class="app-screen" id="app-screen">
+        
+        <!-- BARRA DE ESTADO MÓVIL (STATUS BAR) -->
+        <div class="status-bar">
+          <span class="status-time" id="status-clock">10:42</span>
+          <div class="status-icons">
+            <i class="ri-wifi-line">
+              <span class="sr-only">Wi-Fi</span>
+            </i>
+            <i class="ri-signal-tower-line">
+              <span class="sr-only">Señal</span>
+            </i>
+            <i class="ri-battery-charge-line">
+              <span class="sr-only">Batería</span>
+            </i>
+          </div>
+        </div>
+
+        <!-- CABECERA DE LA APP -->
+        <header class="app-header">
+          <div class="user-greeting">
+            <div class="avatar">
+              <i class="ri-user-smile-line">
+                <span class="sr-only">Usuario</span>
+              </i>
+            </div>
+            <div>
+              <p class="greeting-subtitle">¡Hola de nuevo!</p>
+              <h1 class="greeting-title">Mi Agenda</h1>
+            </div>
+          </div>
+
+          <div class="header-quick-stats">
+            <div class="stat-badge pending" id="stat-pending">
+              <span class="stat-num">0</span>
+              <span class="stat-text">Pendientes</span>
+            </div>
+            <div class="stat-badge completed" id="stat-completed">
+              <span class="stat-num">0</span>
+              <span class="stat-text">Hechas</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- SECCIÓN DE BÚSQUEDA Y FILTROS -->
+        <section class="controls-section">
+          <!-- Búsqueda -->
+          <div class="search-box">
+            <i class="ri-search-2-line search-icon">
+              <span class="sr-only">Buscar</span>
+            </i>
+            <input type="text" id="search-input" placeholder="Buscar tarea..." aria-label="Buscar tareas">
+            <button id="clear-search" class="clear-btn hidden" title="Limpiar búsqueda">
+              <i class="ri-close-circle-fill">
+                <span class="sr-only">Limpiar</span>
+              </i>
+            </button>
+          </div>
+
+          <!-- Filtro por Estado (Tabs) -->
+          <div class="filter-group">
+            <span class="filter-label">Estado:</span>
+            <div class="segmented-control" role="tablist">
+              <button class="segment-btn active" data-filter-status="all" role="tab" aria-selected="true">Todas</button>
+              <button class="segment-btn" data-filter-status="pending" role="tab">Pendientes</button>
+              <button class="segment-btn" data-filter-status="completed" role="tab">Completadas</button>
+            </div>
+          </div>
+
+          <!-- Filtro por Prioridad (Fila completa) -->
+          <div class="secondary-controls">
+            <div class="priority-chips">
+              <button class="chip-btn active" data-filter-priority="all">Todas</button>
+              <button class="chip-btn high" data-filter-priority="alta">🔴 Alta</button>
+              <button class="chip-btn medium" data-filter-priority="media">🟡 Media</button>
+              <button class="chip-btn low" data-filter-priority="baja">🟢 Baja</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTENEDOR DE LISTA DE TAREAS -->
+        <main class="tasks-container">
+          <div class="tasks-header-row">
+            <h2 class="section-heading" id="current-view-title">Tareas de Hoy</h2>
+            <span class="tasks-count-tag" id="tasks-count-tag">0 tareas</span>
+          </div>
+
+          <!-- Lista Ul / Cards -->
+          <div class="task-list" id="task-list" role="list">
+            <!-- Renderizado dinámico desde JS -->
+          </div>
+
+          <!-- Estado Vacío (Empty State) -->
+          <div class="empty-state hidden" id="empty-state">
+            <div class="empty-icon">
+              <i class="ri-checkbox-circle-line">
+                <span class="sr-only">Sin tareas</span>
+              </i>
+            </div>
+            <h3>¡Todo al día!</h3>
+            <p>No tenés tareas que coincidan con los filtros.</p>
+            <button class="btn-secondary" id="btn-empty-add">+ Crear nueva tarea</button>
+          </div>
+        </main>
+
+        <!-- BOTÓN FLOTANTE PRINCIPAL (FAB) -->
+        <button class="fab-create" id="btn-open-create" title="Crear nueva tarea (+)" aria-label="Crear nueva tarea">
+          <i class="ri-add-line">
+            <span class="sr-only">Agregar</span>
+          </i>
+        </button>
+
+        <!-- NAVEGACIÓN INFERIOR (BOTTOM NAV) -->
+        <nav class="bottom-nav">
+          <button class="nav-item active" data-nav="tasks">
+            <i class="ri-task-line">
+              <span class="sr-only">Tareas</span>
+            </i>
+            <span>Tareas</span>
+          </button>
+          <button class="nav-item" data-nav="today">
+            <i class="ri-calendar-event-line">
+              <span class="sr-only">Hoy</span>
+            </i>
+            <span>Hoy</span>
+          </button>
+          
+          <div class="nav-fab-space"></div>
+
+          <button class="nav-item" data-nav="priority">
+            <i class="ri-flag-2-line">
+              <span class="sr-only">Urgentes</span>
+            </i>
+            <span>Prioridad</span>
+          </button>
+          <button class="nav-item" data-nav="accessibility" id="btn-open-accessibility">
+            <i class="ri-accessibility-line">
+              <span class="sr-only">Ajustes</span>
+            </i>
+            <span>Ajustes</span>
+          </button>
+        </nav>
+
+        <!-- MODAL / BOTTOM SHEET: CREAR Y EDITAR TAREA -->
+        <div class="modal-backdrop hidden" id="modal-task-backdrop">
+          <div class="bottom-sheet" id="modal-task-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="sheet-handle"></div>
+            
+            <div class="sheet-header">
+              <h3 id="modal-title">Nueva Tarea</h3>
+              <button class="icon-btn-close" id="btn-close-task-modal" title="Cerrar modal">
+                <i class="ri-close-line">
+                  <span class="sr-only">Cerrar</span>
+                </i>
+              </button>
+            </div>
+
+            <form id="task-form" class="sheet-body">
+              <input type="hidden" id="form-task-id" value="">
+
+              <!-- Título -->
+              <div class="form-field">
+                <label for="form-title" class="field-label">Título de la tarea <span class="required">*</span></label>
+                <input type="text" id="form-title" class="form-input" placeholder="Ej: Entregar TP de UX/UI" required maxlength="60">
+              </div>
+
+              <!-- Descripción -->
+              <div class="form-field">
+                <label for="form-description" class="field-label">Descripción <span class="optional">(Opcional)</span></label>
+                <textarea id="form-description" class="form-textarea" rows="3" placeholder="Detalles, notas o links importantes..."></textarea>
+              </div>
+
+              <!-- Fecha de Vencimiento -->
+              <div class="form-field">
+                <label for="form-due-date" class="field-label">Fecha de vencimiento <span class="required">*</span></label>
+                <div class="input-with-icon">
+                  <i class="ri-calendar-todo-fill input-icon">
+                    <span class="sr-only">Fecha</span>
+                  </i>
+                  <input type="date" id="form-due-date" class="form-input" required>
+                </div>
+              </div>
+
+              <!-- Selector de Prioridad (Radio Cards) -->
+              <div class="form-field">
+                <label class="field-label">Nivel de Prioridad <span class="required">*</span></label>
+                <div class="priority-selector" role="radiogroup" aria-label="Prioridad">
+                  <label class="priority-option high">
+                    <input type="radio" name="priority" value="alta" required>
+                    <div class="priority-card">
+                      <span class="dot"></span>
+                      <span>Alta</span>
+                    </div>
+                  </label>
+                  <label class="priority-option medium">
+                    <input type="radio" name="priority" value="media" checked>
+                    <div class="priority-card">
+                      <span class="dot"></span>
+                      <span>Media</span>
+                    </div>
+                  </label>
+                  <label class="priority-option low">
+                    <input type="radio" name="priority" value="baja">
+                    <div class="priority-card">
+                      <span class="dot"></span>
+                      <span>Baja</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Selector de Estado -->
+              <div class="form-field toggle-field">
+                <span class="field-label mb-0">Marcar como completada</span>
+                <label class="switch-toggle">
+                  <input type="checkbox" id="form-status-checkbox">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- Acciones Inferiores del Formulario -->
+              <div class="sheet-actions">
+                <button type="button" class="btn-cancel" id="btn-cancel-task">Cancelar</button>
+                <button type="submit" class="btn-primary" id="btn-save-task">
+                  <i class="ri-check-line">
+                    <span class="sr-only">Guardar</span>
+                  </i>
+                  <span>Guardar Tarea</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- MODAL DE ACCESIBILIDAD Y AJUSTES DE LA APP -->
+        <div class="modal-backdrop hidden" id="modal-accessibility-backdrop">
+          <div class="bottom-sheet" id="modal-accessibility-sheet">
+            <div class="sheet-handle"></div>
+            
+            <div class="sheet-header">
+              <h3>Ajustes & Accesibilidad</h3>
+              <button class="icon-btn-close" id="btn-close-acc-modal">
+                <i class="ri-close-line">
+                  <span class="sr-only">Cerrar</span>
+                </i>
+              </button>
+            </div>
+
+            <div class="sheet-body">
+              <!-- MODO OSCURO -->
+              <div class="acc-option">
+                <div>
+                  <strong>Modo Oscuro</strong>
+                  <p class="acc-desc">Alterna entre tema oscuro y tema claro.</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" id="toggle-dark-mode" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- ALTO CONTRASTE -->
+              <div class="acc-option">
+                <div>
+                  <strong>Alto Contraste</strong>
+                  <p class="acc-desc">Aumenta la diferenciación de bordes e íconos.</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" id="toggle-high-contrast">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- FUENTE AMPLIADA -->
+              <div class="acc-option">
+                <div>
+                  <strong>Tamaño de Fuente Ampliado</strong>
+                  <p class="acc-desc">Para lectura rápida o visión reducida (+20%).</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" id="toggle-large-font">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <!-- MODO ZURDO -->
+              <div class="acc-option">
+                <div>
+                  <strong>Modo Zurdo (Una sola mano)</strong>
+                  <p class="acc-desc">Mueve el botón flotante (FAB) a la izquierda.</p>
+                </div>
+                <label class="switch-toggle">
+                  <input type="checkbox" id="toggle-lefty-mode">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="sheet-actions">
+                <button type="button" class="btn-primary full-width" id="btn-close-acc-done">Aplicar y Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
+        <div class="modal-backdrop hidden" id="modal-confirm-backdrop">
+          <div class="dialog-box">
+            <div class="dialog-icon warning">
+              <i class="ri-delete-bin-line">
+                <span class="sr-only">Eliminar</span>
+              </i>
+            </div>
+            <h3>¿Eliminar tarea?</h3>
+            <p>Esta acción quitará la tarea de tu agenda de forma permanente.</p>
+            <div class="dialog-actions">
+              <button class="btn-cancel" id="btn-cancel-delete">Cancelar</button>
+              <button class="btn-danger" id="btn-confirm-delete">Eliminar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTIFICACIÓN TOAST FLOTANTE -->
+        <div id="toast-notification" class="toast hidden">
+          <i class="ri-checkbox-circle-fill toast-icon" id="toast-icon">
+            <span class="sr-only">Notificación</span>
+          </i>
+          <span id="toast-message">Tarea guardada con éxito</span>
+        </div>
+
+      </div> <!-- /app-screen -->
+    </div> <!-- /device-frame -->
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
